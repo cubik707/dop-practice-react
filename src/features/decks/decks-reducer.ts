@@ -1,4 +1,4 @@
-import { DecksItemType } from './decks-api.ts'
+import { AddDeckParams, DecksItemType } from './decks-api.ts'
 
 const initialState = {
   decks: [] as DecksItemType[], // todo: add type
@@ -11,8 +11,11 @@ type DecksState = typeof initialState
 
 export const decksReducer = (state: DecksState = initialState, action: DecksActions): DecksState => {
   switch (action.type) {
-    case 'SET-DECKS':
+    case 'DECKS/SET-DECKS':
       return { ...state, decks: action.decks }
+    case 'DECKS/ADD-DECK': {
+      return { ...state, decks: [action.deck, ...state.decks] }
+    }
     default:
       return state
   }
@@ -20,9 +23,16 @@ export const decksReducer = (state: DecksState = initialState, action: DecksActi
 
 export const setDecksAC = (decks: DecksItemType[]) => {
   return {
-    type: 'SET-DECKS',
+    type: 'DECKS/SET-DECKS',
     decks,
-  }
+  } as const
 }
 
-type DecksActions = ReturnType<typeof setDecksAC>
+export const addDeckAC = (deck: DecksItemType) => {
+  return {
+    type: 'DECKS/ADD-DECK',
+    deck,
+  } as const
+}
+
+type DecksActions = ReturnType<typeof setDecksAC> | ReturnType<typeof addDeckAC>
