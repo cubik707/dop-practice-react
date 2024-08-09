@@ -15,6 +15,7 @@ export const AddNewDeckForm = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormValues>({
     defaultValues: {
       name: '',
@@ -22,7 +23,9 @@ export const AddNewDeckForm = () => {
   })
 
   const onSubmit = (data: FormValues) => {
-    dispatch(addDeckTC(data))
+    dispatch(addDeckTC(data)).then(() => {
+      reset()
+    })
   }
 
   return (

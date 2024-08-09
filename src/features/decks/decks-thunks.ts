@@ -11,8 +11,8 @@ export const fetchDecksTC = (decks: DecksItemType[]) => {
   }
 }
 
-export const addDeckTC = (params: AddDeckParams) => (dispatch: Dispatch) => {
-  decksAPI.addDeck(params).then((res) => {
+export const addDeckTC = (params: AddDeckParams) => async (dispatch: Dispatch) => {
+  return decksAPI.addDeck(params).then((res) => {
     return (dispatch: Dispatch) => {
       dispatch(addDeckAC(res.data))
     }
